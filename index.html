@@ -150,4 +150,347 @@
         /* Mockup Chat Area */
         .mockup-chat {
             flex: 1;
-            padding: 1.2
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .bubble {
+            max-width: 80%;
+            padding: 1rem 1.25rem;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            transition: all 0.4s ease;
+        }
+
+        .bubble.received {
+            background: var(--surf);
+            color: var(--text);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .bubble.sent {
+            background: var(--pri);
+            color: #ffffff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        /* Terminal sent text exception */
+        body.is-terminal .bubble.sent {
+            color: #000000;
+            font-weight: bold;
+        }
+
+        /* Mockup Input Area */
+        .mockup-input-area {
+            padding: 1rem 1.25rem 2rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            background: var(--bg);
+        }
+
+        .mockup-input {
+            flex: 1;
+            background: var(--surf);
+            border-radius: 24px;
+            padding: 0.85rem 1.25rem;
+            color: var(--text);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            opacity: 0.7;
+        }
+
+        .mockup-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--pri);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        body.is-terminal .mockup-btn {
+            color: #000000;
+        }
+
+        /* Palette Explorer */
+        .palette-explorer {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            min-width: 300px;
+        }
+
+        .color-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .color-swatch {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: background 0.4s ease;
+        }
+
+        .color-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .color-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #c9d1d9;
+        }
+
+        .color-hex {
+            font-family: monospace;
+            color: #8b949e;
+            font-size: 0.85rem;
+            margin-top: 0.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Aegis: Theme Engine Simulator</h1>
+    <p class="subtitle">Interactive UI & Palette visualizer for Solara and Static themes.</p>
+
+    <div class="controls">
+        <div class="control-group">
+            <label>Engine Mode</label>
+            <select id="engine-select">
+                <option value="solara-standard">Solara (Circadian)</option>
+                <option value="solara-adaptive">Solara Adaptive (Coder)</option>
+                <option value="static">Static Themes</option>
+            </select>
+        </div>
+
+        <div class="control-group" id="phase-group">
+            <label>Time of Day</label>
+            <select id="phase-select">
+                <option value="dawn">Dawn (5am - 9am)</option>
+                <option value="day">Day (9am - 5pm)</option>
+                <option value="dusk">Dusk (5pm - 8pm)</option>
+                <option value="night">Night (8pm - 12am)</option>
+                <option value="moonlight">Moonlight (12am - 5am)</option>
+            </select>
+        </div>
+
+        <div class="control-group" id="static-group" style="display: none;">
+            <label>Theme Roster</label>
+            <select id="static-select">
+                <optgroup label="Microsoft">
+                    <option value="azure">Azure</option>
+                </optgroup>
+                <optgroup label="Gaming">
+                    <option value="haloMasterChief">Master Chief</option>
+                    <option value="haloCortana">Cortana</option>
+                </optgroup>
+                <optgroup label="TMNT: Sewer System">
+                    <option value="tmntLeonardo">Leonardo</option>
+                    <option value="tmntDonatello">Donatello</option>
+                    <option value="tmntRaphael">Raphael</option>
+                    <option value="tmntMichelangelo">Michelangelo</option>
+                </optgroup>
+                <optgroup label="Developer Classics">
+                    <option value="catppuccinMocha">Catppuccin (Mocha)</option>
+                    <option value="nordArctic">Nord (Arctic)</option>
+                    <option value="dracula">Dracula</option>
+                    <option value="cyberpunk">Cyberpunk 2077</option>
+                </optgroup>
+            </select>
+        </div>
+    </div>
+
+    <div class="preview-container">
+        <div class="phone-mockup">
+            <div class="mockup-header">
+                <div class="status-indicator">
+                    <div class="dot"></div>
+                    <span id="ui-title">Aura</span>
+                </div>
+                <div class="phase-pill" id="ui-pill">Dawn</div>
+            </div>
+
+            <div class="mockup-chat">
+                <div class="bubble received">
+                    Hi! I'm Aura, your Edge-AI assistant. I run entirely on-device, so your conversations stay private.
+                </div>
+                <div class="bubble sent">
+                    /note save this to Joplin
+                </div>
+                <div class="bubble received">
+                    [SYSTEM] Note vaulted locally.
+                </div>
+            </div>
+
+            <div class="mockup-input-area">
+                <div class="mockup-input">Message Aura...</div>
+                <div class="mockup-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="palette-explorer">
+            <div class="color-card">
+                <div class="color-swatch" id="swatch-bg" style="background: var(--bg);"></div>
+                <div class="color-details">
+                    <span class="color-name">Background</span>
+                    <span class="color-hex" id="hex-bg">#2D333B</span>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" id="swatch-surf" style="background: var(--surf);"></div>
+                <div class="color-details">
+                    <span class="color-name">Surface / Received Bubble</span>
+                    <span class="color-hex" id="hex-surf">#3D444D</span>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" id="swatch-text" style="background: var(--text);"></div>
+                <div class="color-details">
+                    <span class="color-name">Text Primary</span>
+                    <span class="color-hex" id="hex-text">#E1E4E8</span>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" id="swatch-pri" style="background: var(--pri);"></div>
+                <div class="color-details">
+                    <span class="color-name">Primary Accent / Sent</span>
+                    <span class="color-hex" id="hex-pri">#10B981</span>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch" id="swatch-sec" style="background: var(--sec);"></div>
+                <div class="color-details">
+                    <span class="color-name">Secondary Accent (Hover)</span>
+                    <span class="color-hex" id="hex-sec">#B388FF</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Core Theme Engine Data
+        const themeData = {
+            solaraStandard: {
+                dawn:      { bg: '#2D333B', surf: '#3D444D', text: '#E1E4E8', pri: '#10B981', sec: '#B388FF' },
+                day:       { bg: '#F0F2F5', surf: '#FFFFFF', text: '#1A1A1A', pri: '#10B981', sec: '#B388FF' },
+                dusk:      { bg: '#1E1E2E', surf: '#313244', text: '#CDD6F4', pri: '#10B981', sec: '#B388FF' },
+                night:     { bg: '#0A0A0C', surf: '#141417', text: '#FFFFFF', pri: '#10B981', sec: '#B388FF' },
+                moonlight: { bg: '#000000', surf: '#111111', text: '#D0D0D0', pri: '#0A855A', sec: '#8B66C6' }
+            },
+            solaraAdaptive: {
+                dawn:      { bg: '#2D333B', surf: '#3D444D', text: '#E1E4E8', pri: '#10B981', sec: '#B388FF' },
+                day:       { bg: '#F0F2F5', surf: '#FFFFFF', text: '#1A1A1A', pri: '#10B981', sec: '#B388FF' },
+                dusk:      { bg: '#1E1E2E', surf: '#313244', text: '#CDD6F4', pri: '#10B981', sec: '#B388FF' },
+                night:     { bg: '#0A0A0C', surf: '#141417', text: '#FFFFFF', pri: '#10B981', sec: '#B388FF' },
+                moonlight: { bg: '#000000', surf: '#051205', text: '#00FF41', pri: '#00FF41', sec: '#00A300' } // Terminal Shift
+            },
+            staticThemes: {
+                azure:            { bg: '#F3F2F1', surf: '#FFFFFF', text: '#242424', pri: '#0078D4', sec: '#005A9E', name: 'Azure' },
+                haloMasterChief:  { bg: '#151A15', surf: '#1E251E', text: '#E0EAE0', pri: '#E5B80B', sec: '#5C664C', name: 'Master Chief' },
+                haloCortana:      { bg: '#050A1F', surf: '#0A1438', text: '#E0F7FA', pri: '#00E5FF', sec: '#4B0082', name: 'Cortana' },
+                tmntLeonardo:     { bg: '#1A1C19', surf: '#242923', text: '#E0E0E0', pri: '#2196F3', sec: '#4CAF50', name: 'Leonardo' },
+                tmntDonatello:    { bg: '#1A1C19', surf: '#242923', text: '#E0E0E0', pri: '#9C27B0', sec: '#4CAF50', name: 'Donatello' },
+                tmntRaphael:      { bg: '#1A1C19', surf: '#242923', text: '#E0E0E0', pri: '#F44336', sec: '#4CAF50', name: 'Raphael' },
+                tmntMichelangelo: { bg: '#1A1C19', surf: '#242923', text: '#E0E0E0', pri: '#FF9800', sec: '#4CAF50', name: 'Michelangelo' },
+                catppuccinMocha:  { bg: '#1E1E2E', surf: '#313244', text: '#CDD6F4', pri: '#CBA6F7', sec: '#89B4FA', name: 'Catppuccin' },
+                nordArctic:       { bg: '#2E3440', surf: '#3B4252', text: '#D8DEE9', pri: '#88C0D0', sec: '#81A1C1', name: 'Nord' },
+                dracula:          { bg: '#1A1B26', surf: '#282A36', text: '#F8F8F2', pri: '#BD93F9', sec: '#FF79C6', name: 'Dracula' },
+                cyberpunk:        { bg: '#0D0208', surf: '#1A0510', text: '#FCE205', pri: '#FF003C', sec: '#00FFFF', name: 'Cyberpunk' }
+            }
+        };
+
+        // DOM Elements
+        const engineSelect = document.getElementById('engine-select');
+        const phaseSelect = document.getElementById('phase-select');
+        const staticSelect = document.getElementById('static-select');
+        const phaseGroup = document.getElementById('phase-group');
+        const staticGroup = document.getElementById('static-group');
+        
+        const uiTitle = document.getElementById('ui-title');
+        const uiPill = document.getElementById('ui-pill');
+        const root = document.documentElement;
+
+        // Apply colors to CSS Variables and update Hex Text
+        function applyTheme(colors) {
+            root.style.setProperty('--bg', colors.bg);
+            root.style.setProperty('--surf', colors.surf);
+            root.style.setProperty('--text', colors.text);
+            root.style.setProperty('--pri', colors.pri);
+            root.style.setProperty('--sec', colors.sec);
+
+            document.getElementById('hex-bg').innerText = colors.bg;
+            document.getElementById('hex-surf').innerText = colors.surf;
+            document.getElementById('hex-text').innerText = colors.text;
+            document.getElementById('hex-pri').innerText = colors.pri;
+            document.getElementById('hex-sec').innerText = colors.sec;
+
+            // Handle Terminal Font color contrast rule
+            if (colors.pri === '#00FF41' || colors.pri === '#FCE205' || colors.pri === '#00E5FF' || colors.pri === '#50FA7B') {
+                document.body.classList.add('is-terminal');
+            } else {
+                document.body.classList.remove('is-terminal');
+            }
+        }
+
+        // Logic Router
+        function updateUI() {
+            const engine = engineSelect.value;
+            
+            if (engine === 'static') {
+                phaseGroup.style.display = 'none';
+                staticGroup.style.display = 'flex';
+                const themeKey = staticSelect.value;
+                const activeTheme = themeData.staticThemes[themeKey];
+                uiTitle.innerText = activeTheme.name;
+                uiPill.innerText = 'Static';
+                applyTheme(activeTheme);
+            } else {
+                phaseGroup.style.display = 'flex';
+                staticGroup.style.display = 'none';
+                const phaseKey = phaseSelect.value;
+                
+                let activeTheme;
+                if (engine === 'solara-standard') {
+                    activeTheme = themeData.solaraStandard[phaseKey];
+                    uiTitle.innerText = 'Aura (Standard)';
+                } else {
+                    activeTheme = themeData.solaraAdaptive[phaseKey];
+                    uiTitle.innerText = phaseKey === 'moonlight' ? 'AetherShell' : 'Aura (Adaptive)';
+                }
+                
+                uiPill.innerText = phaseKey.charAt(0).toUpperCase() + phaseKey.slice(1);
+                applyTheme(activeTheme);
+            }
+        }
+
+        // Listeners
+        engineSelect.addEventListener('change', updateUI);
+        phaseSelect.addEventListener('change', updateUI);
+        staticSelect.addEventListener('change', updateUI);
+
+        // Init
+        updateUI();
+    </script>
+</body>
+</html>
