@@ -324,7 +324,7 @@
             <div class="mockup-header">
                 <div class="status-indicator">
                     <div class="dot"></div>
-                    <span id="ui-title">Aura</span>
+                    <span id="ui-title">Aegis</span>
                 </div>
                 <div class="phase-pill" id="ui-pill">Dawn</div>
             </div>
@@ -473,10 +473,10 @@
                 let activeTheme;
                 if (engine === 'solara-standard') {
                     activeTheme = themeData.solaraStandard[phaseKey];
-                    uiTitle.innerText = 'Aura (Standard)';
+                    uiTitle.innerText = 'Aegis (Standard)';
                 } else {
                     activeTheme = themeData.solaraAdaptive[phaseKey];
-                    uiTitle.innerText = phaseKey === 'moonlight' ? 'AetherShell' : 'Aura (Adaptive)';
+                    uiTitle.innerText = phaseKey === 'moonlight' ? 'AetherShell' : 'Aegis (Adaptive)';
                 }
                 
                 uiPill.innerText = phaseKey.charAt(0).toUpperCase() + phaseKey.slice(1);
